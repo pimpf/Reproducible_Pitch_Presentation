@@ -15,9 +15,9 @@ knit        : slidify::knit2slides
 --- bg:#EEE
 
 ## About the application ##
-Very basic demonstration of the caret package which is a set of functions that attempt to streamline the process for creating predictive models.
+<i>This application tends to do a very basic demonstration of the caret package which is a set of functions that attempt to streamline the process for creating predictive models.</i>
 *** hint
-More information about cared package could be found [here](http://topepo.github.io/caret/index.html)
+More information about cared package could be found <a href="http://topepo.github.io/caret/index.html">here</a>
 
 ## 
 
