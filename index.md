@@ -14,13 +14,22 @@ github:
 knit        : slidify::knit2slides
 --- bg:#EEE
 
-## About the application ##
+## About the application
 <i>This application tends to do a very basic demonstration of the caret package which is a set of functions that attempt to streamline the process for creating predictive models.</i>
-*** hint
+<p>
 More information about cared package could be found <a href="http://topepo.github.io/caret/index.html">here</a>
+</p>
 
-## 
-
+## About caret package
+<p>caret has several functions that attempt to streamline the model building and evaluation process, as well as feature selection and other techniques.
+One of the primary tools in the package is the train function which can be used to
+- Evaluate, using resampling, the effect of model tuning parameters on performance
+- Choose the ???optimal??? model across these parameters
+- Estimate model performance from a training set
+</p>
+<p>
+There are options for customizing almost every step of this process (e.g. resampling technique,
+choosing the optimal parameters etc).</p>
 
 --- 
 
