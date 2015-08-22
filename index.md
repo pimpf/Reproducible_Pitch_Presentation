@@ -3,58 +3,87 @@ title       : Reproducible Pitch Presentation
 subtitle    : Course "Developing Data Products" at Coursera
 author      : Milen Angelov
 job         : COO at a waterfall
-framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
-highlighter : highlight.js  # {highlight.js, prettify, highlight}
-hitheme     : tomorrow      # 
-widgets     : [mathjax, bootstrap, quiz]            # {mathjax, quiz, bootstrap}
-mode        : selfcontained # {standalone, draft}
+logo        : logo.jpg
+framework   : io2012
+widgets     : []
 github:
   user: pimpf
   repo: Developing_Data_Products
-knit        : slidify::knit2slides
---- bg:#EEE
 
+--- bg:#EEE
 ## About the application
-<i>This application tends to do a very basic demonstration of the caret package which is a set of functions that attempt to streamline the process for creating predictive models.</i>
-<p>
+<p style="font-size:20px"><i>This application tends to do a very basic demonstration of the caret package which is a set of functions that attempt to streamline the process for creating predictive models.</i>
 More information about cared package could be found <a href="http://topepo.github.io/caret/index.html">here</a>
 </p>
-
 ## About caret package
-<p>caret has several functions that attempt to streamline the model building and evaluation process, as well as feature selection and other techniques.
-One of the primary tools in the package is the train function which can be used to
-- Evaluate, using resampling, the effect of model tuning parameters on performance
-- Choose the ???optimal??? model across these parameters
-- Estimate model performance from a training set
+<p style="font-size:20px"><b>caret</b> has several functions that attempt to streamline the model building and evaluation process, as well as feature selection and other techniques.
+One of the primary tools in the package is the train function which can be used to:
+<ul>
+<li> Evaluate, using resampling, the effect of model tuning parameters on performance</li>
+<li> Choose the "optimal" model across these parameters</li>
+<li> Estimate model performance from a training set</li>
+</ul>
+There are options for customizing almost every step of this process.
 </p>
-<p>
-There are options for customizing almost every step of this process (e.g. resampling technique,
-choosing the optimal parameters etc).</p>
 
 --- 
 
-## What is does ##
-
-## What is missing ##
-
----
-## ui.R ##
-
-How layout is organized
-What widgets are used
----
-## server.R ##
-
-output print
-reactive values
-progress
-method
-
+## What the application does
+<p style="font-size:20px">
+This small application uses <b>iris</b> dataset and implements the following functionality of caret package:<br/>
+- Split the data into two groups: a training set and a test set<br/>
+- Use trainControl to modify resampling method<br/>
+- Tune a model using selected algorithm<br/>
+- Predict new samples using testing set<br/>
+- Compute the confusion matrix and associated statistics for the model fit
+</p>
+## How to use it
+<p style="font-size:20px">
+1. Select ratio of spliting data using slider<br/>
+2. Choose train control method from the drop-down menu<br/>
+3. Select tune model algorithm from the radio button group</br>
+4. Hit "Do prediction button". It may take few seconds before Confusion Matrix apppear on the right side.</p>
 
 ---
-## How to use it ##
+## ui.R
+<p style="font-size:16px">
+In this script the layout is defined. Page is created with fluid layout fluidPage. Title Panel is at the top. sidebarLayout is used to separate the page into two panels.
+The following widgets are positioned on the right: <b>sliderInput</b> is used to define ratio of spliting dataset, <b>selectInput</b> to choose train control, <b>radioButtons</b> to select a train method and <b>actionButton</b> to trigger calculations.<br/>
+On the left are printed results of the calculation with <b>verbatimTextOutput</b>
+</p>
+## server.R
+<p style="font-size:16px">
+For computation the application needs all parameters to be set. In order not to compute on each iteraction reactive expressions are used and within <b>renderPrint</b> calculation is executed in "isolation". Also some methods take longer, for that reason and for better visual present progress bar is included with <b>withProgress</b> function.</p>
 
-What could be done in next release
+```r
+ output$predictions <- renderPrint({
+        isolate({
+            withProgress(message = 'Progress...', value = 0, {
+                ......
+```
+
+
 ---
+## How results are calculated
+<p style="color:red;font-size:16px"><i>Result of the computation below is not included as it takes a lot of space</i></p>
+
+```r
+library(caret);
+library(rpart);
+data(iris);
+# Do train/test split of the dataset
+trainIndex <- createDataPartition(iris$Species, p = .75, list = FALSE);
+data_train <- iris[ trainIndex,];
+data_test <- iris[-trainIndex,];
+# Define train control
+tc <- trainControl(method="boot", number=100);
+# Train model
+model <- train(Species~., data=data_train, trControl=tc, method="rpart");
+# Make predictions
+predictions <- predict(model, newdata = data_test);
+# Summarize results and show it on the right
+confusionMatrix(predictions, data_test$Species);
+```
+
 
 

@@ -1,0 +1,17 @@
+base
+shiny
+lattice
+ggplot2
+caret
+MASS
+kknn
+survival
+gbm
+plyr
+class
+mda
+rpart
+caTools
+e1071
+devtools
+slidify
